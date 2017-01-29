@@ -1,0 +1,105 @@
+<link rel ="import" href="/bower_components/polymer/polymer.html" >
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/polymerfire/firebase-auth.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
+<!--
+ "dependencies": {
+    "polymerfire": "firebase/polymerfire#^0.10.3",
+    "paper-input": "PolymerElements/paper-input#^1.1.23",
+    "paper-button": "PolymerElements/paper-button#^1.0.14",
+    "polymer": "Polymer/polymer#^1.7.1"
+  }
+bower i PolymerElements/iron-icon  firebase/polymerfire PolymerElements/paper-button     --save
+
+
+-->
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+<dom-module id="my-auth">
+  <!-- Defines the element's style and local DOM -->
+  <template>
+    <style>
+       :host {
+      display: inline-block;
+    }
+
+    *{
+
+      padding: 0px;
+    }
+    paper-button {
+     height: 50px;
+     padding:5px;
+     padding-right: 5px;
+      width: 225px;
+    
+     
+     text-align: left;
+     color: white;
+     font-family: 'Roboto';
+     
+    }
+    
+   
+    paper-button > img{
+      float:left;
+      width:40px;
+      height: auto;
+      margin:0px;
+      margin-right: 5px;
+    
+    }  
+    
+    .small-profile{
+      border-style: solid;
+      border-width: 1px;
+      border-color:#778899;
+      border-radius: 50%;
+
+    }
+    </style>
+   
+<firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
+</firebase-auth>
+  <template is="dom-if" if="[[!user]]">
+   <paper-button  raised on-tap="login" style="background-color:#4285F4 ;"><img src="./img/btn_google_light_normal_ios.svg"/ >Sign in with Google</paper-button>
+  </template> 
+  <template is="dom-if" if="[[user]]">
+   <paper-button on-tap="logout" raised style="background-color:#4285F4">
+   <img style="width:30px;"  class="small-profile" src="{{user.photoURL}}" />LogOut with Google
+   </paper-button>
+ </template>
+  </template>
+  <!-- Creates the element's prototype and registers it -->
+  <script>
+    Polymer({
+      is: 'my-auth',
+      
+      properties:{
+        user:{
+          type:Object,
+          notify:true,
+           observer:"_user"
+        },
+      
+      },
+      _user:function(n,o){
+        console.log(n);
+
+      },
+      login:function(){
+
+        var self = this;
+        this.$.auth.signInWithPopup().then(function(res){
+            
+          });
+          
+       
+      },
+
+      logout:function(){
+        this.$.auth.signOut()
+
+      }
+    });
+  </script>
+</dom-module>
