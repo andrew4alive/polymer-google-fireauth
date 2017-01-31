@@ -1,42 +1,33 @@
 <link rel ="import" href="/bower_components/polymer/polymer.html" >
 <link rel="import" href="/bower_components/paper-button/paper-button.html">
 <link rel="import" href="/bower_components/polymerfire/firebase-auth.html">
-<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
-<!--
- "dependencies": {
-    "polymerfire": "firebase/polymerfire#^0.10.3",
-    "paper-input": "PolymerElements/paper-input#^1.1.23",
-    "paper-button": "PolymerElements/paper-button#^1.0.14",
-    "polymer": "Polymer/polymer#^1.7.1"
-  }
-bower i PolymerElements/iron-icon  firebase/polymerfire PolymerElements/paper-button     --save
 
 
--->
-<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-<dom-module id="my-auth">
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+
+
+<dom-module id="google-fireauth">
   <!-- Defines the element's style and local DOM -->
   <template>
     <style>
-       :host {
+    :host {
       display: inline-block;
     }
 
-    *{
-
-      padding: 0px;
-    }
-    paper-button {
-     height: 50px;
-     padding:5px;
-     padding-right: 5px;
-      width: 225px;
     
+
+
+    paper-button {
      
+     height: 50px;
      text-align: left;
      color: white;
-     font-family: 'Roboto';
-     
+     width: 210px;
+    
     }
     
    
@@ -46,7 +37,7 @@ bower i PolymerElements/iron-icon  firebase/polymerfire PolymerElements/paper-bu
       height: auto;
       margin:0px;
       margin-right: 5px;
-    
+
     }  
     
     .small-profile{
@@ -61,18 +52,20 @@ bower i PolymerElements/iron-icon  firebase/polymerfire PolymerElements/paper-bu
 <firebase-auth id="auth" user="{{user}}" provider="google" on-error="handleError">
 </firebase-auth>
   <template is="dom-if" if="[[!user]]">
-   <paper-button  raised on-tap="login" style="background-color:#4285F4 ;"><img src="./img/btn_google_light_normal_ios.svg"/ >Sign in with Google</paper-button>
+   <paper-button  raised on-tap="login" style=" {{bcolor}}"><img src="./img/btn_google_light_normal_ios.svg"/ ><b>Sign in with Google</b></paper-button>
   </template> 
   <template is="dom-if" if="[[user]]">
-   <paper-button on-tap="logout" raised style="background-color:#4285F4">
-   <img style="width:30px;"  class="small-profile" src="{{user.photoURL}}" />LogOut with Google
-   </paper-button>
+   <paper-button on-tap="logout" raised style="{{bcolor}">
+   <img style="width:30px;"  class="small-profile" src="{{user.photoURL}}" /><b>LogOut with Google
+   </b></paper-button>
  </template>
+
+
   </template>
   <!-- Creates the element's prototype and registers it -->
   <script>
     Polymer({
-      is: 'my-auth',
+      is: 'google-fireauth',
       
       properties:{
         user:{
@@ -80,10 +73,14 @@ bower i PolymerElements/iron-icon  firebase/polymerfire PolymerElements/paper-bu
           notify:true,
            observer:"_user"
         },
+        bcolor:{
+          type:String,
+          value:"background-color:#4285F4"
+        }
       
       },
       _user:function(n,o){
-        console.log(n);
+       // console.log(n);
 
       },
       login:function(){
